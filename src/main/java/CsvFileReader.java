@@ -1,27 +1,11 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class CsvFileReader {
 
-  private static final String cvs = "src/";
-  private static String row;
-  private static final String file = "mlb_players.csv";
-  private static BufferedReader csvReader = null;
-
+  private static VectorSchemaRootManipulation vm = new VectorSchemaRootManipulation();
   public static void main(String[] args) throws IOException {
-    try {
-      csvReader = new BufferedReader(new FileReader(cvs+file));
-      while ((row = csvReader.readLine()) != null) {
-        String[] data = row.split(",");
-
-        for(String index : data ){
-          System.out.printf("%-10s", index);
-        }
-        System.out.println();
-      }
-    }finally {
-      csvReader.close();
-    }
+    String path = "src/mlb_players.csv";
+    vm.csv(path);
   }
 }

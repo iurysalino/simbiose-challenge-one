@@ -9,5 +9,8 @@
         <module name="simbiose-challenge-one" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="simbiose-challenge-one" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

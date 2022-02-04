@@ -20,8 +20,6 @@ public class CsvFileReader {
         }
         System.out.println();
       }
-    }catch (Exception exception){
-      exception.printStackTrace();
     }finally {
       csvReader.close();
     }

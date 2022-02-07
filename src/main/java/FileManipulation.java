@@ -24,18 +24,19 @@ public class FileManipulation {
     final VarCharVector vectorWeight = new VarCharVector("weight", allocator);
     final VarCharVector vectorAge = new VarCharVector("age", allocator);
 
-    try {
-      BufferedReader csvReader = new BufferedReader(new FileReader(path));
-      int indice = 0;
-      while ((cell = csvReader.readLine()) != null) {
-        String[] data = cell.split(",");
-        vectorName.setSafe(indice, data[0].getBytes());
-        vectorTeam.setSafe(indice, data[1].getBytes());
-        vectorPosition.setSafe(indice, data[2].getBytes());
-        vectorHeight.setSafe(indice, data[3].getBytes());
-        vectorWeight.setSafe(indice, data[4].getBytes());
-        vectorAge.setSafe(indice, data[5].getBytes());
-        indice++;
+    String line;
+    try (BufferedReader csvReader = new BufferedReader(new FileReader(path))){
+      int index = 0;
+      while ((line = csvReader.readLine()) != null) {
+        String[] data = line.split(",");
+        vectorName.setSafe(index, data[0].getBytes());
+        vectorTeam.setSafe(index, data[1].getBytes());
+        vectorPosition.setSafe(index, data[2].getBytes());
+        vectorHeight.setSafe(index, data[3].getBytes());
+        vectorWeight.setSafe(index, data[4].getBytes());
+        vectorAge.setSafe(index, data[5].getBytes());
+        index++;
+        totalRows++;
       }
     } catch (IOException e) {
       e.printStackTrace();

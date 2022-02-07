@@ -5,9 +5,10 @@ import org.apache.arrow.vector.VectorSchemaRoot;
 
 public class CsvFileReader {
   public static void main(String[] args) throws IOException {
-    FileManipulation fm = new FileManipulation();
-    List lista = fm.csvFileReader(args[0]);
-    VectorSchemaRoot v = fm.vectorSchemaRootPopulate(lista);
-    fm.writeInCsv(v, args[1]);
+    FileManipulation fileManipulation = new FileManipulation();
+    List listDataCvsReader = fileManipulation.csvFileReader(args[0]);
+    try (VectorSchemaRoot vectorSchemaRoot = fileManipulation.vectorSchemaRootPopulate(listDataCvsReader)) {
+      fileManipulation.writeInCsv(vectorSchemaRoot, args[1]);
+    }
   }
 }

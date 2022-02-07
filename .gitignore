@@ -1,0 +1,6 @@
+#Ignored Files and Folders
+/simbiose-challenge-one.iml
+/target
+/.idea
+/src/mlb_players.csv
+/src/mlb_players2.csv

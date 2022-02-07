@@ -67,7 +67,7 @@ public class FileManipulation {
     int count = 0;
     try {
       FileWriter csvWriter = new FileWriter(path);
-      while (count <= 1035) {
+      while (count <= totalRows) {
         csvWriter.append(vectorNameConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
         csvWriter.append(vectorTeamConsumer.getObject(count).toString());

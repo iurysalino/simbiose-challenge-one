@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,8 +15,8 @@ public class FileManipulation {
   private static int totalRows = 0;
   public static final RootAllocator allocator = new RootAllocator(Long.MAX_VALUE);
 
-  public List csvFileReader(String path) throws FileNotFoundException {
-    String cell;
+
+  public List<FieldVector> csvFileReader(String path) throws IOException {
     final VarCharVector vectorName = new VarCharVector("name", allocator);
     final VarCharVector vectorTeam = new VarCharVector("team", allocator);
     final VarCharVector vectorPosition = new VarCharVector("position", allocator);

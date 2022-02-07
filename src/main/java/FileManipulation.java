@@ -17,29 +17,29 @@ public class FileManipulation {
 
 
   public List<FieldVector> csvFileReader(String path) throws IOException {
-    final VarCharVector vectorName = new VarCharVector("name", allocator);
-    final VarCharVector vectorTeam = new VarCharVector("team", allocator);
-    final VarCharVector vectorPosition = new VarCharVector("position", allocator);
-    final VarCharVector vectorHeight = new VarCharVector("height", allocator);
-    final VarCharVector vectorWeight = new VarCharVector("weight", allocator);
-    final VarCharVector vectorAge = new VarCharVector("age", allocator);
+    final VarCharVector Name = new VarCharVector("name", allocator);
+    final VarCharVector Team = new VarCharVector("team", allocator);
+    final VarCharVector Position = new VarCharVector("position", allocator);
+    final VarCharVector Height = new VarCharVector("height", allocator);
+    final VarCharVector Weight = new VarCharVector("weight", allocator);
+    final VarCharVector Age = new VarCharVector("age", allocator);
 
     String line;
     try (BufferedReader csvReader = new BufferedReader(new FileReader(path))){
       int index = 0;
       while ((line = csvReader.readLine()) != null) {
         String[] data = line.split(",");
-        vectorName.setSafe(index, data[0].getBytes());
-        vectorTeam.setSafe(index, data[1].getBytes());
-        vectorPosition.setSafe(index, data[2].getBytes());
-        vectorHeight.setSafe(index, data[3].getBytes());
-        vectorWeight.setSafe(index, data[4].getBytes());
-        vectorAge.setSafe(index, data[5].getBytes());
+        Name.setSafe(index, data[0].getBytes());
+        Team.setSafe(index, data[1].getBytes());
+        Position.setSafe(index, data[2].getBytes());
+        Height.setSafe(index, data[3].getBytes());
+        Weight.setSafe(index, data[4].getBytes());
+        Age.setSafe(index, data[5].getBytes());
         index++;
         totalRows++;
       }
     }
-    return Arrays.asList(vectorName, vectorTeam, vectorPosition, vectorHeight, vectorWeight, vectorAge);
+    return Arrays.asList(Name, Team, Position, Height, Weight, Age);
   }
 
   public VectorSchemaRoot vectorSchemaRootPopulate(List<FieldVector> listDataVectors) {
@@ -57,28 +57,28 @@ public class FileManipulation {
   }
 
   public void writeInCsv(VectorSchemaRoot vectorSchemaRoot, String path) {
-    VarCharVector vectorNameConsumer = (VarCharVector) vectorSchemaRoot.getVector(0);
-    VarCharVector vectorTeamConsumer = (VarCharVector) vectorSchemaRoot.getVector(1);
-    VarCharVector vectorPositionConsumer = (VarCharVector) vectorSchemaRoot.getVector(2);
-    VarCharVector vectorHeightConsumer = (VarCharVector) vectorSchemaRoot.getVector(3);
-    VarCharVector vectorWeightConsumer = (VarCharVector) vectorSchemaRoot.getVector(4);
-    VarCharVector vectorAgeConsumer = (VarCharVector) vectorSchemaRoot.getVector(5);
+    VarCharVector NameConsumer = (VarCharVector) vectorSchemaRoot.getVector(0);
+    VarCharVector TeamConsumer = (VarCharVector) vectorSchemaRoot.getVector(1);
+    VarCharVector PositionConsumer = (VarCharVector) vectorSchemaRoot.getVector(2);
+    VarCharVector HeightConsumer = (VarCharVector) vectorSchemaRoot.getVector(3);
+    VarCharVector WeightConsumer = (VarCharVector) vectorSchemaRoot.getVector(4);
+    VarCharVector AgeConsumer = (VarCharVector) vectorSchemaRoot.getVector(5);
 
     int count = 0;
     try {
       FileWriter csvWriter = new FileWriter(path);
       while (count <= totalRows) {
-        csvWriter.append(vectorNameConsumer.getObject(count).toString());
+        csvWriter.append(NameConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(vectorTeamConsumer.getObject(count).toString());
+        csvWriter.append(TeamConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(vectorPositionConsumer.getObject(count).toString());
+        csvWriter.append(PositionConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(vectorHeightConsumer.getObject(count).toString());
+        csvWriter.append(HeightConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(vectorWeightConsumer.getObject(count).toString());
+        csvWriter.append(WeightConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(vectorAgeConsumer.getObject(count).toString());
+        csvWriter.append(AgeConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
         newLine(csvWriter);
         count++;

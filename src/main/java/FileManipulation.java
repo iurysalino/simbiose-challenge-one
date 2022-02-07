@@ -13,6 +13,7 @@ import org.apache.arrow.vector.VectorSchemaRoot;
 
 public class FileManipulation {
 
+  private static int totalRows = 0;
   public static final RootAllocator allocator = new RootAllocator(Long.MAX_VALUE);
 
   public List csvFileReader(String path) throws FileNotFoundException {

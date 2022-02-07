@@ -48,11 +48,11 @@ public class FileManipulation {
     return vectorSchemaRoot;
   }
 
-  public void cellSeparator(FileWriter csvWriter) throws IOException {
+  private void cellSeparator(FileWriter csvWriter) throws IOException {
     csvWriter.append(",");
   }
 
-  public void newLine(FileWriter csvWriter) throws IOException {
+  private void newLine(FileWriter csvWriter) throws IOException {
     csvWriter.append("\n");
   }
 

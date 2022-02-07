@@ -38,15 +38,13 @@ public class FileManipulation {
         index++;
         totalRows++;
       }
-    } catch (IOException e) {
-      e.printStackTrace();
     }
-    return Arrays.<FieldVector>asList(vectorName, vectorTeam, vectorPosition, vectorHeight, vectorWeight, vectorAge);
+    return Arrays.asList(vectorName, vectorTeam, vectorPosition, vectorHeight, vectorWeight, vectorAge);
   }
 
-  public VectorSchemaRoot vectorSchemaRootPopulate(List listsVetoes) {
-    VectorSchemaRoot vectorSchemaRoot = new VectorSchemaRoot(listsVetoes);
-    vectorSchemaRoot.setRowCount(1035);
+  public VectorSchemaRoot vectorSchemaRootPopulate(List<FieldVector> listDataVectors) {
+    VectorSchemaRoot vectorSchemaRoot = new VectorSchemaRoot(listDataVectors);
+    vectorSchemaRoot.setRowCount(totalRows);
     return vectorSchemaRoot;
   }
 

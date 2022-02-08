@@ -12,34 +12,32 @@ import org.apache.arrow.vector.VectorSchemaRoot;
 
 public class FileManipulation {
 
-  private static int totalRows = 0;
+  private int totalRows;
   public static final RootAllocator allocator = new RootAllocator(Long.MAX_VALUE);
 
-
   public List<FieldVector> csvFileReader(String path) throws IOException {
-    final VarCharVector Name = new VarCharVector("name", allocator);
-    final VarCharVector Team = new VarCharVector("team", allocator);
-    final VarCharVector Position = new VarCharVector("position", allocator);
-    final VarCharVector Height = new VarCharVector("height", allocator);
-    final VarCharVector Weight = new VarCharVector("weight", allocator);
-    final VarCharVector Age = new VarCharVector("age", allocator);
+    final VarCharVector name = new VarCharVector("name", allocator);
+    final VarCharVector team = new VarCharVector("team", allocator);
+    final VarCharVector position = new VarCharVector("position", allocator);
+    final VarCharVector height = new VarCharVector("height", allocator);
+    final VarCharVector weight = new VarCharVector("weight", allocator);
+    final VarCharVector age = new VarCharVector("age", allocator);
 
     String line;
-    try (BufferedReader csvReader = new BufferedReader(new FileReader(path))){
-      int index = 0;
+    try (BufferedReader csvReader = new BufferedReader(new FileReader(path))) {
+      totalRows = 0;
       while ((line = csvReader.readLine()) != null) {
         String[] data = line.split(",");
-        Name.setSafe(index, data[0].getBytes());
-        Team.setSafe(index, data[1].getBytes());
-        Position.setSafe(index, data[2].getBytes());
-        Height.setSafe(index, data[3].getBytes());
-        Weight.setSafe(index, data[4].getBytes());
-        Age.setSafe(index, data[5].getBytes());
-        index++;
+        name.setSafe(totalRows, data[0].getBytes());
+        team.setSafe(totalRows, data[1].getBytes());
+        position.setSafe(totalRows, data[2].getBytes());
+        height.setSafe(totalRows, data[3].getBytes());
+        weight.setSafe(totalRows, data[4].getBytes());
+        age.setSafe(totalRows, data[5].getBytes());
         totalRows++;
       }
     }
-    return Arrays.asList(Name, Team, Position, Height, Weight, Age);
+    return Arrays.asList(name, team, position, height, weight, age);
   }
 
   public VectorSchemaRoot vectorSchemaRootPopulate(List<FieldVector> listDataVectors) {
@@ -52,39 +50,36 @@ public class FileManipulation {
     csvWriter.append(",");
   }
 
-  private void newLine(FileWriter csvWriter) throws IOException {
+  private void createNewLine(FileWriter csvWriter) throws IOException {
     csvWriter.append("\n");
   }
 
-  public void writeInCsv(VectorSchemaRoot vectorSchemaRoot, String path) {
-    VarCharVector NameConsumer = (VarCharVector) vectorSchemaRoot.getVector(0);
-    VarCharVector TeamConsumer = (VarCharVector) vectorSchemaRoot.getVector(1);
-    VarCharVector PositionConsumer = (VarCharVector) vectorSchemaRoot.getVector(2);
-    VarCharVector HeightConsumer = (VarCharVector) vectorSchemaRoot.getVector(3);
-    VarCharVector WeightConsumer = (VarCharVector) vectorSchemaRoot.getVector(4);
-    VarCharVector AgeConsumer = (VarCharVector) vectorSchemaRoot.getVector(5);
+  public void writeInCsv(VectorSchemaRoot vectorSchemaRoot, String path) throws IOException {
+    VarCharVector nameConsumer = (VarCharVector) vectorSchemaRoot.getVector(0);
+    VarCharVector teamConsumer = (VarCharVector) vectorSchemaRoot.getVector(1);
+    VarCharVector positionConsumer = (VarCharVector) vectorSchemaRoot.getVector(2);
+    VarCharVector heightConsumer = (VarCharVector) vectorSchemaRoot.getVector(3);
+    VarCharVector weightConsumer = (VarCharVector) vectorSchemaRoot.getVector(4);
+    VarCharVector ageConsumer = (VarCharVector) vectorSchemaRoot.getVector(5);
 
     int count = 0;
-    try {
-      FileWriter csvWriter = new FileWriter(path);
+    try (FileWriter csvWriter = new FileWriter(path)) {
       while (count <= totalRows) {
-        csvWriter.append(NameConsumer.getObject(count).toString());
+        csvWriter.append(nameConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(TeamConsumer.getObject(count).toString());
+        csvWriter.append(teamConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(PositionConsumer.getObject(count).toString());
+        csvWriter.append(positionConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(HeightConsumer.getObject(count).toString());
+        csvWriter.append(heightConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(WeightConsumer.getObject(count).toString());
+        csvWriter.append(weightConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        csvWriter.append(AgeConsumer.getObject(count).toString());
+        csvWriter.append(ageConsumer.getObject(count).toString());
         cellSeparator(csvWriter);
-        newLine(csvWriter);
+        createNewLine(csvWriter);
         count++;
       }
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 }
